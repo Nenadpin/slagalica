@@ -39,6 +39,7 @@ function skockoKreni() {
   if (i === 6) {
     pocetna[0].style.display = "none";
     igraDisplay.style.display = "block";
+    igraDisplay.style.height = "425px";
   }
 }
 skocko.addEventListener("click", function () {

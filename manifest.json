@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "version": "1.0",
+  "name": "Slagalica",
+  "action": {
+    "default_popup": "slagalica.html",
+    "defaul_icon": "Skocko.jpeg"
+  },
+  "description": "Klik na ikonu pocinje igru, dupli klik na resenje resetuje",
+  "permissions": ["storage", "notifications"]
+}
