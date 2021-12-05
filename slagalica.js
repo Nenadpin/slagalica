@@ -9,6 +9,7 @@ const karo = document.getElementById("karoImg");
 const herc = document.getElementById("hercImg");
 const zvezda = document.getElementById("zvezdaImg");
 const btnSlika = document.getElementsByTagName("button");
+
 let i = 6;
 let tekst1 = rolText.innerText + " ";
 let radi = false;
@@ -19,7 +20,6 @@ let pokusaj = [];
 for (let j = 0; j < 4; j++) {
   zadatak[j] = Math.floor(Math.random() * 6 + 1);
 }
-console.log(zadatak);
 Slika.addEventListener("mouseover", function () {
   tajmer = setInterval(function () {
     tekst1 =
@@ -36,8 +36,10 @@ Slika.addEventListener("mouseleave", function () {
 Slika.addEventListener("click", skockoKreni);
 
 function skockoKreni() {
-  pocetna[0].style.display = "none";
-  igraDisplay.style.display = "block";
+  if (i === 6) {
+    pocetna[0].style.display = "none";
+    igraDisplay.style.display = "block";
+  }
 }
 skocko.addEventListener("click", function () {
   btnSlika[i].innerHTML = '<img src="1.png">';
@@ -107,8 +109,8 @@ zvezda.addEventListener("click", function () {
 });
 function provera() {
   let tempBaza = [];
-  for (let i = 0; i < 4; i++) {
-    tempBaza[i] = zadatak[i];
+  for (let l = 0; l < 4; l++) {
+    tempBaza[l] = zadatak[l];
   }
   let t = 0,
     n = 0;
@@ -116,16 +118,51 @@ function provera() {
     if (pokusaj[j] === zadatak[j]) {
       t += 1;
       tempBaza[j] = 0;
+      pokusaj[j] = 0;
     }
   }
   for (let k = 0; k < 4; k++) {
-    if (tempBaza.includes(pokusaj[k])) {
-      n += 1;
-      pokusaj[k] = 0;
+    for (let m = 0; m < 4; m++) {
+      if (pokusaj[k] === tempBaza[m] && pokusaj[k] !== 0) {
+        n += 1;
+        pokusaj[k] = 0;
+        tempBaza[m] = 0;
+      }
     }
   }
-  console.log(t, n);
-  console.log(pokusaj);
-  console.log(tempBaza);
-  return [t, n];
+  for (let m = 0; m < t; m++) {
+    btnSlika[i + m - 4].innerHTML = '<img src="ok.png">';
+    btnSlika[i + m - 4].style.opacity = 1;
+  }
+  for (let m = 0; m < n; m++) {
+    btnSlika[i + m + t - 4].innerHTML = '<img src="bad.png">';
+    btnSlika[i + m + t - 4].style.opacity = 1;
+  }
+  if (t === 4 || i === 66) {
+    for (let j = 0; j < 4; j++) {
+      btnSlika[j + 66].innerHTML =
+        '<img src="' + zadatak[j].toString() + '.png">';
+      btnSlika[j + 66].style.opacity = 1;
+    }
+    if (t === 4) {
+      let ofs = 0;
+      let el = document.getElementById("blink");
+
+      window.setInterval(function () {
+        el.style.background = "rgba(0,255,0," + Math.abs(Math.sin(ofs)) + ")";
+        ofs += 0.01;
+      }, 1);
+    } else {
+      let ofs = 0;
+      let el = document.getElementById("blink");
+
+      window.setInterval(function () {
+        el.style.background = "rgba(255,0,0," + Math.abs(Math.sin(ofs)) + ")";
+        ofs += 0.01;
+      }, 1);
+    }
+  }
 }
+document.getElementById("blink").addEventListener("dblclick", function () {
+  window.location.reload();
+});
